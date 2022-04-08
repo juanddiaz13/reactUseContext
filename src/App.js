@@ -5,6 +5,8 @@ import { Gallery } from './pages/Gallery';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import React, {useContext} from 'react';
 import { useEffect, useState } from "react";
+import BootstrapSwitchButton from 'bootstrap-switch-button-react'
+
 
 const themes = {
   light: {
@@ -26,8 +28,8 @@ function App() {
   const [theme, setTheme] = useState(themes.light);
   const value = {theme, setTheme};
   return (
-    <ThemeContext.Provider value={value}>
-      <Toolbar />
+    <ThemeContext.Provider value={value} >
+      <Toolbar  />
     </ThemeContext.Provider>
   );
 }
@@ -42,10 +44,14 @@ function Toolbar(props) {
 
 function ThemedButton() {
   const {theme, setTheme} = useContext(ThemeContext);
+  document.documentElement.style.setProperty('--app-color', theme.foreground)
   return (
-    <button onClick={() => setTheme(theme==themes.light?themes.dark:themes.light)} style={{ background: theme.background, color: theme.foreground }}>
-      I am styled by theme context!
-    </button>
+     <BootstrapSwitchButton
+     checked={false}
+     onlabel='Dark'
+     offlabel='Light'
+     onChange= {() => setTheme(theme==themes.light?themes.dark:themes.light)} style={{ background: theme.background, color: theme.foreground }}
+     />
   );
 }
 
